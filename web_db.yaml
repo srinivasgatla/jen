@@ -1,0 +1,29 @@
+---
+- hosts: webservers
+  sudo: yes
+  
+  tasks:
+  - name: Ensure Apache installed
+    yum: name=httpd state=present
+
+  - name: Ensure Apache is running
+    service: name=httpd enabled=yes state=started
+
+- hosts: dbservers
+  sudo: yes
+
+  tasks:
+  - name: Ensure mysql server installed
+    yum: name=mysql-server state=present
+    
+  - name: Ensure mysql running
+    service: name=mysqld state=started
+
+- hosts: webservers:dbservers
+  sudo: yes
+
+  tasks:
+  - name: Stop IPTABLES Now!!
+    service: name=iptables state=stopped
+
+
